@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Approval System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Loan Approval Prediction</h2>
+        <form action="/predict" method="post">
+            <label>Monthly Income:</label>
+            <input type="number" name="income" value="{{ income or '' }}" required>
+
+            <label>Credit Score:</label>
+            <input type="number" name="credit_score" value="{{ credit_score or '' }}" required>
+
+            <label>Loan Amount:</label>
+            <input type="number" name="loan_amount" value="{{ loan_amount or '' }}" required>
+
+            <label>Employment Type:</label>
+            <select name="employment" required>
+                <option value="Salaried" {% if employment == 'Salaried' %}selected{% endif %}>Salaried</option>
+                <option value="Self-Employed" {% if employment == 'Self-Employed' %}selected{% endif %}>Self-Employed</option>
+                <option value="Unemployed" {% if employment == 'Unemployed' %}selected{% endif %}>Unemployed</option>
+            </select>
+
+            <label>Loan Purpose:</label>
+            <select name="loan_purpose" required>
+                <option value="Home" {% if loan_purpose == 'Home' %}selected{% endif %}>Home</option>
+                <option value="Car" {% if loan_purpose == 'Car' %}selected{% endif %}>Car</option>
+                <option value="Business" {% if loan_purpose == 'Business' %}selected{% endif %}>Business</option>
+                <option value="Education" {% if loan_purpose == 'Education' %}selected{% endif %}>Education</option>
+                <option value="Personal" {% if loan_purpose == 'Personal' %}selected{% endif %}>Personal</option>
+            </select>
+
+            <label>Loan Term (Years):</label>
+            <input type="number" name="loan_term" value="{{ loan_term or '' }}" required>
+
+            <label>Debt-to-Income Ratio (%):</label>
+            <input type="number" step="0.1" name="debt_ratio" value="{{ debt_ratio or '' }}" required>
+
+            <label>Previous Loan Default:</label>
+            <select name="previous_default" required>
+                <option value="No" {% if previous_default == 'No' %}selected{% endif %}>No</option>
+                <option value="Yes" {% if previous_default == 'Yes' %}selected{% endif %}>Yes</option>
+            </select>
+
+            <button type="submit">Check Loan Status</button>
+        </form>
+
+        {% if prediction_text %}
+            <h3>{{ prediction_text }}</h3>
+        {% endif %}
+    </div>
+</body>
+</html>
+
